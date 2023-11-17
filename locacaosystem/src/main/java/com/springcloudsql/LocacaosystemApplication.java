@@ -1,14 +1,15 @@
 package com.springcloudsql;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Scanner;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import com.springcloudsql.controller.ClienteController;
 import com.springcloudsql.model.Cliente;
-import com.springcloudsql.model.Equipamento;
-import com.springcloudsql.model.Locacao;
 import com.springcloudsql.repository.ClienteRepository;
 import com.springcloudsql.repository.EquipamentoRepository;
 import com.springcloudsql.repository.LocacaoRepository;
@@ -21,74 +22,84 @@ public class LocacaosystemApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(ClienteRepository clienteRepository, EquipamentoRepository equipamentoRepository, LocacaoRepository locacaoRepository) {
+	CommandLineRunner init(ClienteRepository clienteRepository, EquipamentoRepository equipamentoRepository, LocacaoRepository locacaoRepository, ClienteController clienteController) {
 		return args -> {
 			// limpando os dados existentes
 			clienteRepository.deleteAll();
 			equipamentoRepository.deleteAll();
 			locacaoRepository.deleteAll();
 			
-			
-			Cliente c1 = new Cliente();
-			c1.setNome("Andre");
-			c1.setEmail("andrefagundes@gmail.com");
-			c1.setTelefone("(71) 992556123");
-			c1.setCep("6243-9162");
-			clienteRepository.save(c1);
-			
-			Cliente c2 = new Cliente();
-			c2.setNome("Maria Paula");
-			c2.setEmail("mariapaula@gmail.com");
-			c2.setTelefone("(71) 992336172");
-			c2.setCep("1221-6432");
-			clienteRepository.save(c2);
+			Scanner sc = new Scanner(System.in);
 
-			Cliente c3 = new Cliente();
-			c3.setNome("Juliano Andrade");
-			c3.setEmail("julianoandrade@gmail.com");
-			c3.setTelefone("(71) 99126253");
-			c3.setCep("1341-7162");
-			clienteRepository.save(c3);
+			boolean decisao = true;
+			int escolha;
+			while (decisao) {
+				System.out.println("Menu:");
+				System.out.println("1 - Inserir cliente");
+				System.out.println("2 - exibir clientes");
+				System.out.println("3 - atualizar cliente");
+				System.out.println("4 - excluir cliente");
+				System.out.println("0 - Sair");
 
-			Equipamento e1 = new Equipamento();
-			e1.setNome("Câmera Sony a3");
-			e1.setDescricao("Vem com bateria");
-			e1.setPrecoDiario(322.88);
-			e1.setDisponivel(true);
-			equipamentoRepository.save(e1);
+				escolha = sc.nextInt();
+				sc.nextLine();
+				if (escolha == 0) {
+					System.out.println("Saindo...");
+					decisao = false;
+				} else if (escolha == 1) { // cria
+					Cliente novoCliente = new Cliente();
+					System.out.println("Digite o nome do cliente:");
+					novoCliente.setNome(sc.nextLine());
 
+					System.out.println("Digite o email do cliente:");
+					novoCliente.setEmail(sc.nextLine());
 
-			Equipamento e2 = new Equipamento();
-			e2.setNome("Camera a3 Sony");
-			e2.setDescricao("Vem com bateria");
-			e2.setPrecoDiario(150.99);
-			e2.setDisponivel(false);
-			equipamentoRepository.save(e2);
+					System.out.println("Digite o telefone do cliente:");
+					novoCliente.setTelefone(sc.nextLine());
 
-			Equipamento e3 = new Equipamento();
-			e3.setNome("Tripe Asure");
-			e3.setDescricao("Não vem com adicional");
-			e3.setPrecoDiario(400.23);
-			e3.setDisponivel(false);
-			equipamentoRepository.save(e3);
+					System.out.println("Digite o cep do cliente:");
+					novoCliente.setCep(sc.nextLine());
 
-			Locacao l1 = new Locacao();
-			l1.setData_locacao(LocalDate.parse("2023-07-20"));
-			l1.setData_devolucao_prevista(LocalDate.parse("2023-07-20"));
-			l1.setValorTotal(20028.99);
-			locacaoRepository.save(l1);
+					clienteController.create(novoCliente);
 
-			Locacao l2 = new Locacao();
-			l2.setData_locacao(LocalDate.parse("2023-08-10"));
-			l2.setData_devolucao_prevista(LocalDate.parse("2023-10-12"));
-			l2.setValorTotal(399.99);
-			locacaoRepository.save(l2);
+					
+					System.out.println("Cliente inserido com sucesso!");
+				} else if (escolha == 2) { // exibe
+					List<Cliente> clientes = clienteController.findAll();
+					if(clientes.isEmpty()) {
+						System.out.println("Nenhum cliente cadastrado");
+					} else {
+						System.out.println("Clientes cadastrados:");
+						for(Cliente cliente : clientes) {
+							System.out.println(cliente); // se não der certo, tentar o toString
+						}
+					}
+				} else if (escolha == 3) { // atualiza
+					System.out.println("Digite o ID do cliente a ser atualizado:");
+					long idAtuaizacao = sc.nextLong();
+					sc.nextLine(); // limpar o buffer
+					Cliente clienteAtualizacao =  new Cliente();
+					System.out.println("Digite o novo nome do cliente:");
+					clienteAtualizacao.setNome(sc.nextLine());
+					System.out.println("Digite o novo email do cliente:");
+					clienteAtualizacao.setEmail(sc.nextLine());
+					System.out.println("Digite o novo telefone do cliente:");
+					clienteAtualizacao.setTelefone(sc.nextLine());
+					System.out.println("Digite o novo cep do cliente:");
+					clienteAtualizacao.setCep(sc.nextLine());
+					clienteController.update(idAtuaizacao, clienteAtualizacao);
+					System.out.println("Cliente atualizado com sucesso!");
+				} else if (escolha == 4) { // delete
+					System.out.println("Digite o ID do cliente a ser excluido");
+					long idExclusao = sc.nextLong();
+					clienteController.delete(idExclusao);
+					System.out.println("Cliente deletado com sucesso");
+				} else {
+					System.out.println("Opção inválida, tente novamente!");
+				}
+			}
+			sc.close();
 
-			Locacao l3 = new Locacao();
-			l3.setData_locacao(LocalDate.parse("2023-04-22"));
-			l3.setData_devolucao_prevista(LocalDate.parse("2023-06-26"));
-			l3.setValorTotal(123.99);
-			locacaoRepository.save(l3);	
 		};
 	}
 
