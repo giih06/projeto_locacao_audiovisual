@@ -12,23 +12,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springcloudsql.model.Equipamento;
 import com.springcloudsql.model.Locacao;
-import com.springcloudsql.repository.EquipamentoRepository;
+import com.springcloudsql.repository.LocacaoRepository;
 
 @RestController
 @RequestMapping({"/locacoes"})
 public class LocacaoController {
     
-    private EquipamentoRepository repository;
+    private LocacaoRepository repository;
 
-    LocacaoController(EquipamentoRepository equipamentoRepository) {
-        this.repository = equipamentoRepository;
+    LocacaoController(LocacaoRepository locacaoRepository) {
+        this.repository = locacaoRepository;
     }
 
     // (select * from locacao)
     @GetMapping
-    public List<Equipamento> findAll() {
+    public List<Locacao> findAll() {
         return repository.findAll();
     }
 
@@ -40,25 +39,24 @@ public class LocacaoController {
     
     // cria uma nova locacao
     @PostMapping
-    public Equipamento create(@RequestBody Equipamento equipamento) {
-        return repository.save(equipamento);
+    public Locacao create(@RequestBody Locacao locacao) {
+        return repository.save(locacao);
     }
 
     // update por id
     @PutMapping(value="/{id}")
-    public ResponseEntity<Locacao> update(@PathVariable("id") long id, @RequestBody Equipamento equipamento) {
+    public ResponseEntity<Locacao> update(@PathVariable("id") long id, @RequestBody Locacao locacao) {
         return repository.findById(id)
         .map(record -> {
-            record.setNome(equipamento.getNome());
-            record.setDescricao(equipamento.getDescricao());
-            record.setPrecoDiario(equipamento.getPrecoDiario());
-            record.setDisponivel(equipamento.isDisponivel());
-            Equipamento updated = repository.save(record);
+            record.setData_locacao(locacao.getData_locacao());
+            record.setData_devolucao_prevista(locacao.getData_devolucao_prevista());
+            record.setValorTotal(locacao.getValorTotal());
+            Locacao updated = repository.save(record);
             return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // remove o equipamento por id
+    // remove a locacao por id
     @DeleteMapping(path ={"/{id}"})
     public ResponseEntity<?> delete(@PathVariable("id") long id) {
         return repository.findById(id)

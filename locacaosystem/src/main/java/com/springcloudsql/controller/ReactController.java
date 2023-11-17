@@ -2,7 +2,7 @@ package com.springcloudsql.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
+// classe que integra java com front end
 @Controller
 public class ReactController {
     @GetMapping("/")

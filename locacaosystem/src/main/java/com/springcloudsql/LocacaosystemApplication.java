@@ -1,13 +1,17 @@
 package com.springcloudsql;
 
+import java.time.LocalDate;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import com.springcloudsql.model.Cliente;
 import com.springcloudsql.model.Equipamento;
+import com.springcloudsql.model.Locacao;
 import com.springcloudsql.repository.ClienteRepository;
 import com.springcloudsql.repository.EquipamentoRepository;
+import com.springcloudsql.repository.LocacaoRepository;
 
 @SpringBootApplication
 public class LocacaosystemApplication {
@@ -22,6 +26,7 @@ public class LocacaosystemApplication {
 			// limpando os dados existentes
 			clienteRepository.deleteAll();
 			equipamentoRepository.deleteAll();
+			locacaoRepository.deleteAll();
 			
 			
 			Cliente c1 = new Cliente();
@@ -66,6 +71,24 @@ public class LocacaosystemApplication {
 			e3.setPrecoDiario(400.23);
 			e3.setDisponivel(false);
 			equipamentoRepository.save(e3);
+
+			Locacao l1 = new Locacao();
+			l1.setData_locacao(LocalDate.parse("2023-07-20"));
+			l1.setData_devolucao_prevista(LocalDate.parse("2023-07-20"));
+			l1.setValorTotal(20028.99);
+			locacaoRepository.save(l1);
+
+			Locacao l2 = new Locacao();
+			l2.setData_locacao(LocalDate.parse("2023-08-10"));
+			l2.setData_devolucao_prevista(LocalDate.parse("2023-10-12"));
+			l2.setValorTotal(399.99);
+			locacaoRepository.save(l2);
+
+			Locacao l3 = new Locacao();
+			l3.setData_locacao(LocalDate.parse("2023-04-22"));
+			l3.setData_devolucao_prevista(LocalDate.parse("2023-06-26"));
+			l3.setValorTotal(123.99);
+			locacaoRepository.save(l3);	
 		};
 	}
 

@@ -1,7 +1,7 @@
 package com.springcloudsql.model;
 
 import java.io.Serializable;
-
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,10 +22,9 @@ public class Locacao implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String descricao;
-    private Double precoDiario;
-    private boolean disponivel;
+    private LocalDate data_locacao;
+    private LocalDate data_devolucao_prevista;
+    private Double valorTotal;
 
     // associações
 }
