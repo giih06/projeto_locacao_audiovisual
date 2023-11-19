@@ -1,13 +1,12 @@
 package com.springcloudsql.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,17 +16,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Equipamento implements Serializable {
+public class Endereco implements Serializable{
+    // atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String descricao;
-    private Double precoDiario;
-    private boolean disponivel;
+    private String rua;
+    private int numero;
+    private String cidade;
+    private String cep;
+    private String complemento;
 
-    // associação com reserva
-    @OneToMany(mappedBy = "equipamento")
-    private List<Reserva> reseras;
+    // associações
+
+    // Associação com o cliente
+    @OneToOne(mappedBy = "endereco")
+    private Cliente cliente;
+    
 }

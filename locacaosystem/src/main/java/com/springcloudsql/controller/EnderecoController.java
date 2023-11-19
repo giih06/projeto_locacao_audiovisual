@@ -12,56 +12,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springcloudsql.model.Locacao;
-import com.springcloudsql.repository.LocacaoRepository;
+import com.springcloudsql.model.Endereco;
+import com.springcloudsql.repository.EnderecoRepository;
 
 @RestController
-@RequestMapping({"/locacoes"})
-public class LocacaoController {
+@RequestMapping({"/enderecos"})
+public class EnderecoController {
     
-    private LocacaoRepository repository;
+    private EnderecoRepository repository;
 
-    LocacaoController(LocacaoRepository locacaoRepository) {
-        this.repository = locacaoRepository;
+    EnderecoController(EnderecoRepository enderecoRepository) {
+        this.repository = enderecoRepository;
     }
 
-    // (select * from locacao)
+    // (select * from Endereco)
     @GetMapping
-    public List<Locacao> findAll() {
+    public List<Endereco> findAll() {
         return repository.findAll();
     }
 
-    // (select * from locacao where id = ?)
+    // (select * from Endereco where id = ?)
     @GetMapping(path = {"/{id}"})
-    public ResponseEntity<Locacao> findById(@PathVariable long id) {
+    public ResponseEntity<Endereco> findById(@PathVariable long id) {
         return repository.findById(id).map(record -> ResponseEntity.ok().body(record)).orElse(ResponseEntity.notFound().build());
     }
     
-    // cria uma nova locacao
+    // cria um novo Endereco
     @PostMapping
-    public Locacao create(@RequestBody Locacao locacao) {
-        return repository.save(locacao);
+    public Endereco create(@RequestBody Endereco endereco) {
+        return repository.save(endereco);
     }
 
     // update por id
     @PutMapping(value="/{id}")
-    public ResponseEntity<Locacao> update(@PathVariable("id") long id, @RequestBody Locacao locacao) {
+    public ResponseEntity<Endereco> update(@PathVariable("id") long id, @RequestBody Endereco endereco) {
         return repository.findById(id)
         .map(record -> {
-            record.setData_locacao(locacao.getData_locacao());
-            record.setData_devolucao_prevista(locacao.getData_devolucao_prevista());
-            record.setValorTotal(locacao.getValorTotal());
+            record.setRua(endereco.getRua());
+            record.setNumero(endereco.getNumero());
+            record.setCidade(endereco.getCidade());
+            record.setCep(endereco.getCep());
+            record.setComplemento(endereco.getComplemento());
 
-            // Atualiza as associações com Cliente e Equipamento
-            record.setCliente(locacao.getCliente());
-            record.setEquipamentos(locacao.getEquipamentos());
+            // Atualiza as associações com cliente
+            record.setCliente(endereco.getCliente());
 
-            Locacao updated = repository.save(record);
+            Endereco updated = repository.save(record);
             return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // remove a locacao por id
+    // remove o Endereco por id
     @DeleteMapping(path ={"/{id}"})
     public ResponseEntity<?> delete(@PathVariable("id") long id) {
         return repository.findById(id)

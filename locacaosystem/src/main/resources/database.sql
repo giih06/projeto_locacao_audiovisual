@@ -6,7 +6,6 @@ CREATE TABLE clientes (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     telefone VARCHAR(11) NOT NULL,
-    cep VARCHAR(10) NOT NULL
     FOREIGN KEY (endereco_id) REFERENCES enderecos(endereco_id);
 )
 
@@ -14,10 +13,7 @@ CREATE TABLE usuarios (
     usuario_id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    telefone VARCHAR(20) NOT NULL,
-    cep VARCHAR(10) NOT NULL,
     senha VARCHAR(255) NOT NULL
-    cliente BOOLEAN NOT NULL DEFAULT FALSE
 )
 
 CREATE TABLE locacao (

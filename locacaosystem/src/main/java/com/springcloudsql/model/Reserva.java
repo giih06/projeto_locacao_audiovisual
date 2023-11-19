@@ -2,16 +2,14 @@ package com.springcloudsql.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,29 +19,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-public class Locacao implements Serializable{
+public class Reserva implements Serializable{
     // atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate data_locacao;
-    private LocalDate data_devolucao_prevista;
-    private Double valorTotal;
+    private LocalDate data_inicio;
+    private LocalDate data_fim;
+    private String status;
 
     // associações
 
-    // associação com Cliente
+    // associação com cliente
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    // associaçao com Equipamentos
-    @ManyToMany
-    @JoinTable(name = "locacao_equipamento",
-            joinColumns = @JoinColumn(name = "locacao_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipamento_id"))
-    private List<Equipamento> equipamentos;
+    // associação com equipamento
+    @ManyToOne
+    @JoinColumn(name = "equipamento_id")
+    private Equipamento equipamento;
 
-
+    @PrePersist
+    public void prePersist() {
+        // Define o status_reserva padrão como 'pendente' antes da persistência
+        if (this.status == null) {
+            this.status = "pendente";
+        }
+    }
+    
 }
