@@ -53,9 +53,6 @@ public class EquipamentoController {
             record.setPrecoDiario(equipamento.getPrecoDiario());
             record.setDisponivel(equipamento.isDisponivel());
 
-            // Atualiza as associações com Locações
-            record.setReseras(equipamento.getReseras());
-
             Equipamento updated = repository.save(record);
             return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());

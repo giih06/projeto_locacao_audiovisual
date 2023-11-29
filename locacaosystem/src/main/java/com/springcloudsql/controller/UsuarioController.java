@@ -53,10 +53,7 @@ public class UsuarioController {
                     record.setEmail(usuario.getEmail());
                     record.setSenha(usuario.getSenha());
 
-                    // Atualiza as associações com Cliente 
-                    record.setCliente(usuario.getCliente());
-
-                    Usuario updated = repository.save(usuario);
+                    Usuario updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);
                 })
                 .orElse(ResponseEntity.notFound().build());

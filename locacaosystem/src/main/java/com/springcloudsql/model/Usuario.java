@@ -1,13 +1,14 @@
 package com.springcloudsql.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name="usuarios")
 public class Usuario implements Serializable{
     // atributos
     @Id
@@ -27,13 +29,7 @@ public class Usuario implements Serializable{
     private String email;
     private String senha;
 
-
-    // associações
-
-    // associação com cliente
-    @OneToOne
-    @JoinColumn(name = "usuario")
-    private Cliente cliente;
-
     
+    @OneToMany(mappedBy = "usuario")
+    private List<Cliente> clientes;
 }

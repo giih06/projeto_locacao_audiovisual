@@ -2,16 +2,14 @@ package com.springcloudsql.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name="locacoes")
 public class Locacao implements Serializable{
     // atributos
     @Id
@@ -32,18 +31,12 @@ public class Locacao implements Serializable{
     private Double valorTotal;
 
     // associações
-
-    // associação com Cliente
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    // associaçao com Equipamentos
-    @ManyToMany
-    @JoinTable(name = "locacao_equipamento",
-            joinColumns = @JoinColumn(name = "locacao_id"),
-            inverseJoinColumns = @JoinColumn(name = "equipamento_id"))
-    private List<Equipamento> equipamentos;
-
+    @ManyToOne
+    @JoinColumn(name = "equipamento_id", nullable = false)
+    private Equipamento equipamento;
 
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name="equipamentos")
 public class Equipamento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +29,6 @@ public class Equipamento implements Serializable {
     private Double precoDiario;
     private boolean disponivel;
 
-    // associação com reserva
     @OneToMany(mappedBy = "equipamento")
-    private List<Reserva> reseras;
+    private List<Reserva> reservas;
 }

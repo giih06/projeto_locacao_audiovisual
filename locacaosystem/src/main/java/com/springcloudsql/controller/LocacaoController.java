@@ -52,9 +52,8 @@ public class LocacaoController {
             record.setData_devolucao_prevista(locacao.getData_devolucao_prevista());
             record.setValorTotal(locacao.getValorTotal());
 
-            // Atualiza as associações com Cliente e Equipamento
+            // Atualiza as associações com Cliente 
             record.setCliente(locacao.getCliente());
-            record.setEquipamentos(locacao.getEquipamentos());
 
             Locacao updated = repository.save(record);
             return ResponseEntity.ok().body(updated);

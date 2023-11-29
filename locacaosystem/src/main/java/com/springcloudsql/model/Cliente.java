@@ -8,8 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name="clientes")
 public class Cliente implements Serializable{
     // atributos
     @Id
@@ -31,17 +33,15 @@ public class Cliente implements Serializable{
 
     // associações
 
-    // associação com o a locação  
-    @OneToMany(mappedBy = "cliente")
-    private List<Locacao> locacoes;
+    @ManyToOne
+    @JoinColumn(name = "endereco_id", nullable = false)
+    private Endereco endereco;
 
-    // associação com usuário
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    // associação com o endereço
-    @OneToOne
-    @JoinColumn(name = "endereco_id")
-    private Endereco endereco;
+    @OneToMany(mappedBy = "cliente") 
+    private List<Locacao> locacoes;
+
 }

@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
+@Table(name="reservas")
 public class Reserva implements Serializable{
     // atributos
     @Id
@@ -30,23 +31,14 @@ public class Reserva implements Serializable{
     private String status;
 
     // associações
-
-    // associação com cliente
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    // associação com equipamento
     @ManyToOne
-    @JoinColumn(name = "equipamento_id")
+    @JoinColumn(name = "equipamento_id", nullable = false)
     private Equipamento equipamento;
 
-    @PrePersist
-    public void prePersist() {
-        // Define o status_reserva padrão como 'pendente' antes da persistência
-        if (this.status == null) {
-            this.status = "pendente";
-        }
-    }
+
     
 }

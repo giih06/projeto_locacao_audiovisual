@@ -52,12 +52,8 @@ public class ReservaController {
                     record.setData_inicio(reserva.getData_inicio());
                     record.setData_fim(reserva.getData_fim());
                     record.setStatus(reserva.getStatus());
-                    
-                    // Atualiza as associações com Cliente e Equipamento
-                    record.setCliente(reserva.getCliente());
-                    record.setEquipamento(reserva.getEquipamento());
 
-                    Reserva updated = repository.save(reserva);
+                    Reserva updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);
                 })
                 .orElse(ResponseEntity.notFound().build());

@@ -54,9 +54,6 @@ public class EnderecoController {
             record.setCep(endereco.getCep());
             record.setComplemento(endereco.getComplemento());
 
-            // Atualiza as associações com cliente
-            record.setCliente(endereco.getCliente());
-
             Endereco updated = repository.save(record);
             return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());

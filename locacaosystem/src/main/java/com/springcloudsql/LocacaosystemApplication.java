@@ -45,18 +45,12 @@ public class LocacaosystemApplication {
 			reservaRepository.deleteAll(); 
 			usuarioRepository.deleteAll(); 
 			enderecoRepository.deleteAll();
-
+			/* 
 			Cliente cliente1 = new Cliente();
 			cliente1.setNome("Jullia Gomes");
 			cliente1.setEmail("juliagomes@gmail.com");
 			cliente1.setTelefone("71 998112312");
 			clienteController.create(cliente1);
-
-			Cliente cliente2 = new Cliente();
-			cliente2.setNome("Reinaldo Fernandes");
-			cliente2.setEmail("reifernandes@gmail.com");
-			cliente2.setTelefone("71 991666252");
-			clienteController.create(cliente2);
 			
 			Equipamento equipamento1 = new Equipamento();
 			equipamento1.setNome("Câmera Profissional 4k");
@@ -65,6 +59,21 @@ public class LocacaosystemApplication {
 			equipamento1.setDisponivel(false);
 			equipamentoController.create(equipamento1);
 
+			Endereco endereco1 = new Endereco();
+			endereco1.setRua("Rua Pilha Freireza");
+			endereco1.setNumero(181);
+			endereco1.setCidade("Fortaleza");
+			endereco1.setCep("8172-28391");
+			endereco1.setComplemento("Perto da praça");
+			enderecoController.create(endereco1);
+			
+			Usuario usuario1 = new Usuario();
+			usuario1.setNome(cliente1.getNome());
+			usuario1.setEmail(cliente1.getEmail());
+			usuario1.setSenha("@kadjASD");
+			usuarioController.create(usuario1);
+			*/
+
 			Equipamento equipamento2 = new Equipamento();
 			equipamento2.setNome("Microfone sem fio");
 			equipamento2.setDescricao("Um microfone portátil e sem cabos, ideal para apresentações e performances sem restrições de movimento");
@@ -72,51 +81,41 @@ public class LocacaosystemApplication {
 			equipamento2.setDisponivel(true);
 			equipamentoController.create(equipamento2);
 
-			Locacao locacao1 = new Locacao();
-			locacao1.setData_locacao(LocalDate.parse("2023-07-21"));
-			locacao1.setData_devolucao_prevista(LocalDate.parse("2023-07-23"));
-			locacao1.setValorTotal(203.99);
-			locacaoController.create(locacao1);
-
-			Reserva reserva1 = new Reserva();
-			reserva1.setCliente(cliente2);
-			reserva1.setData_inicio(LocalDate.parse("2023-07-23"));
-			reserva1.setData_fim(LocalDate.parse("2023-07-26"));
-			reserva1.setEquipamento(equipamento2);
-			reserva1.setStatus("cancelado");
-			reservaController.create(reserva1);
-
-			Endereco endereco1 = new Endereco();
-			endereco1.setRua("Rua Pilha Freireza");
-			endereco1.setNumero(181);
-			endereco1.setCidade("Fortaleza");
-			endereco1.setCep("8172-28391");
-			endereco1.setComplemento("Perto da praça");
-			endereco1.setCliente(cliente1);
-			enderecoController.create(endereco1);
-			
 			Endereco endereco2 = new Endereco();
 			endereco2.setRua("Rua Monique Gusta");
 			endereco2.setNumero(900);
 			endereco2.setCidade("Salvador");
 			endereco2.setCep("98273-122");
 			endereco2.setComplemento("Do lado do açai");
-			endereco2.setCliente(cliente2);
 			enderecoController.create(endereco2);
 
-			Usuario usuario1 = new Usuario();
-			usuario1.setNome(cliente1.getNome());
-			usuario1.setEmail(cliente1.getEmail());
-			usuario1.setSenha("@kadjASD");
-			usuario1.setCliente(cliente1);
-			usuarioController.create(usuario1);
-
 			Usuario usuario2 = new Usuario();
-			usuario2.setNome(cliente2.getNome());
-			usuario2.setEmail(cliente2.getEmail());
+			usuario2.setEmail("user2@gmail.com");
+			usuario2.setNome("Kilakk");
 			usuario2.setSenha("91KAad");
-			usuario2.setCliente(cliente2);
 			usuarioController.create(usuario2);
+
+			Cliente cliente2 = new Cliente();
+			cliente2.setNome("Reinaldo Fernandes");
+			cliente2.setEmail("reifernandes@gmail.com");
+			cliente2.setTelefone("71 991666252");
+			cliente2.setUsuario(usuario2);
+			cliente2.setEndereco(endereco2);
+			clienteController.create(cliente2);
+
+			Locacao locacao1 = new Locacao();
+			locacao1.setData_locacao(LocalDate.parse("2023-07-21"));
+			locacao1.setData_devolucao_prevista(LocalDate.parse("2023-07-23"));
+			locacao1.setValorTotal(203.99);
+			locacao1.setCliente(cliente2);
+			locacaoController.create(locacao1);
+
+			Reserva reserva1 = new Reserva();
+			reserva1.setData_inicio(LocalDate.parse("2023-07-23"));
+			reserva1.setData_fim(LocalDate.parse("2023-07-26"));
+			reserva1.setEquipamento(equipamento2);
+			reserva1.setStatus("cancelado");
+			reservaController.create(reserva1);
 
 			Scanner sc = new Scanner(System.in);
 
