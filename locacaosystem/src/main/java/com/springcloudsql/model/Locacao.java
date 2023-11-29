@@ -7,9 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="locacoes")
 public class Locacao implements Serializable{
     // atributos
     @Id
@@ -29,14 +25,4 @@ public class Locacao implements Serializable{
     private LocalDate data_locacao;
     private LocalDate data_devolucao_prevista;
     private Double valorTotal;
-
-    // associações
-    @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "equipamento_id", nullable = false)
-    private Equipamento equipamento;
-
 }

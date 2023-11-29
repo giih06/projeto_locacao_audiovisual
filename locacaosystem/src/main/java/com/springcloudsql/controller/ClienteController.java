@@ -52,11 +52,6 @@ public class ClienteController {
             record.setEmail(cliente.getEmail());
             record.setTelefone(cliente.getTelefone());
 
-            // Atualiza as associações com Locações e endereço
-            record.setEndereco(cliente.getEndereco());
-            record.setUsuario(cliente.getUsuario());
-            record.setLocacoes(cliente.getLocacoes());
-
             Cliente updated = repository.save(record);
             return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());
